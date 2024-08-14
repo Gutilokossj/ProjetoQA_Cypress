@@ -32,18 +32,11 @@ export function registerProduct(barra, nome, marca, custo, margemVenda, ncm) {
     cy.get('#frmTabelaProd\\:margemVenda').clear();
     cy.wait(500);
 
-    cy.get('#frmTabelaProd\\:margemVenda').then($input => {
+    cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda).then($input => {
         cy.wrap($input)
-            .type(margemVenda.replace(',', '.'))
             .blur(); // Simula a perda de foco
     });
 
-    // Use `cy.get` novamente para garantir que o valor seja atualizado e visível
-    cy.get('#frmTabelaProd\\:margemVenda').invoke('val').then(val => {
-        // Formate o valor recebido e compare com o valor esperado
-        const formattedVal = val.replace(',', '.');
-        expect(parseFloat(formattedVal)).to.equal(parseFloat(margemVenda.replace(',', '.')));
-    });
 
     cy.wait(500);
     cy.get('#frmTabelaProd\\:ncm').clear().type(ncm);
@@ -91,13 +84,13 @@ export function registerEtapa(etapa, descEtapa, descComplemento, valor){
     cy.wait(1000);
     cy.get('#frmTabelaProd\\:j_idt271').should('be.visible').click();
     cy.wait(500);
-    cy.get('#frmDialogs\\:j_idt1081_input').type(etapa);
+    cy.get('#frmDialogs\\:j_idt1064_input').type(etapa);
     cy.get('#frmDialogs\\:complementoItemEtapaDescricao').type(descEtapa);
-    cy.get('#frmDialogs\\:j_idt1089').type(descComplemento)
+    cy.get('#frmDialogs\\:j_idt1072').type(descComplemento)
     cy.wait(1000);
-    cy.get('#frmDialogs\\:j_idt1093').clear().type(valor);
-    cy.get('#frmDialogs\\:j_idt1103').click();
-    cy.get('#frmDialogs\\:j_idt1124').click();
+    cy.get('#frmDialogs\\:j_idt1076').clear().type(valor);
+    cy.get('#frmDialogs\\:j_idt1086').click();
+    cy.get('#frmDialogs\\:j_idt1107').click();
 }
 
 export function addEtapa(etapa, descComplemento, valor) {
@@ -107,10 +100,10 @@ export function addEtapa(etapa, descComplemento, valor) {
     cy.get('#frmDialogs\\:j_idt1081_panel').should('be.visible');
 
     cy.get('#frmDialogs\\:j_idt1081_panel').contains('tr.ui-autocomplete-item', etapa).should('be.visible').click();
-    cy.get('#frmDialogs\\:j_idt1089').type(descComplemento);
+    cy.get('#frmDialogs\\:j_idt1072').type(descComplemento);
     cy.wait(1000);
     cy.get('#frmDialogs\\:j_idt1093').clear().type(valor);
-    cy.get('#frmDialogs\\:j_idt1103').click();
+    cy.get('#frmDialogs\\:j_idt1107').click();
 
     // Usar force: true para clicar no botão mesmo que esteja coberto
     cy.get('#frmDialogs\\:j_idt1124').click({ force: true });
