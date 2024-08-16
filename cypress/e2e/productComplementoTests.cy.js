@@ -15,7 +15,7 @@ describe('CadastroProdutoGA', () => {
 
     it('CadastrarUmProdutoComplemento', () => {
         const uniqueBarcode = uuidv4().replace(/-/g, '').slice(0, 13);
-        registerProduct(uniqueBarcode, "PIZZA DOS NAMORADOS", "ATELIE", "20,00", "150", "19023000");
+        registerProduct(uniqueBarcode, "PIZZA DOS NAMORADOS", "ATELIE", "20,00", "150,0", "19023000");
         saveProduct();
 
         registerEtapa("ETP 1", "INGREDIENTES", "MASSA", "12,99");
