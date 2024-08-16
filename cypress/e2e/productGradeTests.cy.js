@@ -5,6 +5,7 @@ describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
         login();
+        cy.visit('/dashboard/')
     });
 
     it('CadastrarUmProdutoGrade', () => {

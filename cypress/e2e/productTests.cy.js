@@ -5,6 +5,7 @@ describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
         login();
+        cy.visit('/dashboard/')
     });
 
     it('CadastrarUmProduto', () => {
@@ -12,6 +13,7 @@ describe('CadastroProdutoGA', () => {
       registerProduct(uniqueBarcode, "COCA COLA 2L", "COCA COLA", "12,40", "25,10", "22021000");
 
       saveProduct();
+      
   });
 
 

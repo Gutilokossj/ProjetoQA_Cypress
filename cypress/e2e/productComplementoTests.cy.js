@@ -5,6 +5,7 @@ describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
         login();
+        cy.visit('/dashboard/')
 
         // Capturar exceções não capturadas e impedir que falhem o teste
         Cypress.on('uncaught:exception', (err, runnable) => {
