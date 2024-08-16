@@ -3,10 +3,6 @@ export function login() {
     const email = Cypress.env('email');
     const password = Cypress.env('password');
 
-    // Verifique se as variáveis estão corretas (opcional, para depuração)
-    console.log('Email:', email);
-    console.log('Password:', password);
-
     cy.visit("/entrar");
 
     cy.get('#email').type(email);
