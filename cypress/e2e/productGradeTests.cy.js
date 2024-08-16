@@ -9,7 +9,7 @@ describe('CadastroProdutoGA', () => {
 
     it('CadastrarUmProdutoGrade', () => {
       const uniqueBarcode = uuidv4().replace(/-/g, '').slice(0, 13);
-      registerProduct(uniqueBarcode,"CAMISETA","ADIDAS", "25,00", "70", "61091000");
+      registerProduct(uniqueBarcode,"CAMISETA","ADIDAS", "25,00", "70,00", "61091000");
       registerGrades("Tamanho Camiseta", "G", "Cor", "Branco", uniqueBarcode, "45,99");
 
       saveProduct();
