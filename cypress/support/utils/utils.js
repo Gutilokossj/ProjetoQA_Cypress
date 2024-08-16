@@ -7,14 +7,12 @@ export function login() {
     cy.session([email, password], () => {
         cy.visit("/entrar");
 
-        cy.get('#email').type(email);
-        cy.get('#senhaLogin').type(password);
+        cy.get('#email', {log: false}).type(email, {log: false});
+        cy.get('#senhaLogin', {log: false}).type(password, {log: false});
         cy.get('#entrar').click();
         cy.get('#frmTabela\\:dtTabela_data tr:nth-child(1) td:nth-child(4) a').click();
     });
 }
-
-
 
 
 export function registerProduct(barra, nome, marca, custo, margemVenda, ncm) {
