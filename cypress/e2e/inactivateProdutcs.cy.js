@@ -5,6 +5,7 @@ describe('InativaProdutoGA', () => {
 
     beforeEach(() => {
         login();
+        cy.visit('/dashboard/')
 
         Cypress.on('uncaught:exception', (err, runnable) => {
             console.log('Uncaught exception:', err);

@@ -3,14 +3,19 @@ export function login() {
     const email = Cypress.env('email');
     const password = Cypress.env('password');
 
-    cy.visit("/entrar");
+    // Use o método cy.session com um identificador único e o setup
+    cy.session([email, password], () => {
+        cy.visit("/entrar");
 
-    cy.get('#email').type(email);
-    cy.get('#senhaLogin').type(password);
-    
-    cy.get('#entrar').click();
-    cy.get('#frmTabela\\:dtTabela_data tr:nth-child(1) td:nth-child(4) a').click();
+        cy.get('#email').type(email);
+        cy.get('#senhaLogin').type(password);
+        cy.get('#entrar').click();
+        cy.get('#frmTabela\\:dtTabela_data tr:nth-child(1) td:nth-child(4) a').click();
+    });
 }
+
+
+
 
 export function registerProduct(barra, nome, marca, custo, margemVenda, ncm) {
     cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > a > span').click();

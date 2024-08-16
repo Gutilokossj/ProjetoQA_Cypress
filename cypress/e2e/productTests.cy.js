@@ -5,13 +5,15 @@ describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
         login();
+        cy.visit('/dashboard/')
     });
 
     it('CadastrarUmProduto', () => {
       const uniqueBarcode = uuidv4().replace(/-/g, '').slice(0, 13); // Gera um código de barras único com 13 dígitos
-      registerProduct(uniqueBarcode, "COCA COLA 2L", "COCA COLA", "12,40", "25,0", "22021000");
+      registerProduct(uniqueBarcode, "COCA COLA 2L", "COCA COLA", "12,40", "25,10", "22021000");
 
       saveProduct();
+      
   });
 
 
