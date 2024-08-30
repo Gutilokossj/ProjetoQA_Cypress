@@ -1,4 +1,4 @@
-export function login() {
+export function loginSession() {
     // Acesse variáveis de ambiente
     const email = Cypress.env('email');
     const password = Cypress.env('password');
@@ -12,6 +12,16 @@ export function login() {
         cy.get('#entrar').click();
         cy.get('#frmTabela\\:dtTabela_data tr:nth-child(1) td:nth-child(4) a').click();
     });
+}
+
+export function login() {
+    // Acesse variáveis de ambiente
+    const email = Cypress.env('email');
+    const password = Cypress.env('password');
+        cy.visit("/entrar");
+        cy.get('#email', {log: false}).type(email, {log: false});
+        cy.get('#senhaLogin', {log: false}).type(password, {log: false});
+        cy.get('#entrar').click();   
 }
 
 
@@ -41,8 +51,8 @@ export function registerProduct(barra, nome, marca, custo, margemVenda, ncm) {
 
 
 export function registerGrades(variante, variacao, variante1, variacao1, codBarra, valorVenda){
-    cy.get('#frmTabelaProd\\:j_idt267').click();
-    cy.get('#frmGrade\\:allVariante > div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right > span').click();
+    cy.contains('a', 'Grade').click()
+    cy.get('#frmGrade\\:allVariante').find('div.ui-selectonemenu-trigger').click();
     cy.get('#frmGrade\\:allVariante').should('be.visible');
     cy.wait(1000);
     cy.get('#frmGrade\\:allVariante_items').contains('li.ui-selectonemenu-item', variante).click();
@@ -117,7 +127,7 @@ export function inactivateProducts(){
     cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > a > span').click();
     cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > ul > li:nth-child(3) > a > span').click();
     cy.get('#frmTabela\\:busca').type("%%%");
-    cy.get('#frmTabela\\:j_idt88').click();
+    cy.get('#frmTabela\\:j_idt93').click();
     cy.get('#frmTabela\\:dtTabela\\:j_idt90 > div > div.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default').click();
     cy.get('#frmTabela\\:dtTabela_data > tr:nth-child(1) > td.ui-selection-column.ui-column-p-3 > div > div.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default.ui-state-active').click();
     cy.get('#frmTabela\\:btnMaisOpcoes').click();

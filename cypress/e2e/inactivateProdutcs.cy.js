@@ -1,10 +1,9 @@
-import {inactivateProducts, login} from '../support/utils/utils';
-import { v4 as uuidv4 } from 'uuid';
+import {inactivateProducts, loginSession} from '../support/utils/utils';
 
 describe('InativaProdutoGA', () => {
 
     beforeEach(() => {
-        login();
+        loginSession();
         cy.visit('/dashboard/')
 
         Cypress.on('uncaught:exception', (err, runnable) => {

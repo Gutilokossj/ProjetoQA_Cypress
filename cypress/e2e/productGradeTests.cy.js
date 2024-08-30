@@ -1,10 +1,10 @@
-import {login, registerGrades, registerProduct, saveProduct } from '../support/utils/utils';
+import {login, loginSession, registerGrades, registerProduct, saveProduct } from '../support/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
-        login();
+        loginSession();
         cy.visit('/dashboard/')
     });
 

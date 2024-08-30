@@ -1,10 +1,10 @@
-import { addEtapa, login, registerEtapa, registerProduct, saveProduct } from '../support/utils/utils';
+import { addEtapa, loginSession, registerEtapa, registerProduct, saveProduct } from '../support/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('CadastroProdutoGA', () => {
 
     beforeEach(() => {
-        login();
+        loginSession();
         cy.visit('/dashboard/')
 
         // Capturar exceções não capturadas e impedir que falhem o teste
