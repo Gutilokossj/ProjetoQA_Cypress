@@ -22,6 +22,26 @@ export function login() {
         cy.get('#email', {log: false}).type(email, {log: false});
         cy.get('#senhaLogin', {log: false}).type(password, {log: false});
         cy.get('#entrar').click();   
+
+         // Verifica para qual URL o usuário foi redirecionado
+        cy.url().then((url) => {
+        if (url.includes('/selecao-empresa')) {
+            cy.log('Usuário redirecionado para a página de seleção de empresa');
+            clicarBotaoAcessar(cnpj);
+        } else if (url.includes('/dashboard')) {
+            cy.log('Usuário redirecionado para o dashboard');
+        } else {
+            cy.log('Usuário redirecionado para uma URL inesperada: ' + url);
+        }
+    });
+}
+
+function clicarBotaoAcessar(cnpj) {
+    // Encontra o label que contém o CNPJ específico
+    cy.contains('label', cnpj).parents('tr').within(() => {
+        // Dentro da linha da tabela, clica no link "ACESSAR"
+        cy.contains('a', 'Acessar').click();
+    });
 }
 
 

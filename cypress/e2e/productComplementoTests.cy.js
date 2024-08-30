@@ -1,7 +1,7 @@
 import { addEtapa, loginSession, registerEtapa, registerProduct, saveProduct } from '../support/utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
-describe('CadastroProdutoGA', () => {
+describe('CadastrarProdutoGA', () => {
 
     beforeEach(() => {
         loginSession();
@@ -14,7 +14,7 @@ describe('CadastroProdutoGA', () => {
         });
     });
 
-    it('CadastrarUmProdutoComplemento', () => {
+    it('CadastrarProdutoComplemento', () => {
         const uniqueBarcode = uuidv4().replace(/-/g, '').slice(0, 13);
         registerProduct(uniqueBarcode, "PIZZA DOS NAMORADOS", "ATELIE", "20,00", "150,0", "19023000");
         saveProduct();
