@@ -1,5 +1,4 @@
 export function loginSession() {
-    // Acesse variáveis de ambiente
     const email = Cypress.env('email');
     const password = Cypress.env('password');
 
@@ -39,7 +38,6 @@ export function login() {
 function clicarBotaoAcessar(cnpj) {
     // Encontra o label que contém o CNPJ específico
     cy.contains('label', cnpj).parents('tr').within(() => {
-        // Dentro da linha da tabela, clica no link "ACESSAR"
         cy.contains('a', 'Acessar').click();
     });
 }
@@ -144,8 +142,13 @@ export function saveProduct(){
 
 //APENAS PARA ESTUDO
 export function inactivateProducts(){
-    cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > a > span').click();
-    cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > ul > li:nth-child(3) > a > span').click();
+
+    it('', () => {
+        
+    });
+    cy.get('#menu > div.menu-corpo > ul > li').contains('span.menu-lista-texto', 'Cadastros').click();
+    cy.get('#menu > div.menu-corpo > ul > li').contains('span.menu-lista-texto', 'Cadastros > ul > li').find('#menu-lista-nivel-2-link > span.menu-lista-nivel-2-texto','Produto').click();
+    //cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > ul > li:nth-child(3) > a > span').click();
     cy.get('#frmTabela\\:busca').type("%%%");
     cy.get('#frmTabela\\:j_idt93').click();
     cy.get('#frmTabela\\:dtTabela\\:j_idt90 > div > div.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default').click();

@@ -7,7 +7,7 @@ describe('TestesLogin', () => {
     });
 
     it('LoginMultiEmpresa', () => {
-        const cnpj = '475.351,888.-42';
+        const cnpj = '23.319.602/0001-01';
         login(cnpj);   
     });
 

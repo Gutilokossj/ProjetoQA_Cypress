@@ -1,4 +1,4 @@
-const { loginSession } = require("../support/utils/utils");
+const { loginSession } = require("../../support/utils/utils");
 
 describe('ScreenTest', () => {
 
