@@ -59,4 +59,11 @@ describe('Teste consultas possíveis para o usuário', () => {
     cy.wait(2000);
   });
 
+  it('Verifica página de créditos', () => {
+    cy.visit('https://consulta-bkp.vercel.app/index.html');
+    cy.get('.footer-link').click();
+    cy.wait(2000);
+    cy.url().should('equal','https://consulta-bkp.vercel.app/creditos.html');  
+  })
+
 })

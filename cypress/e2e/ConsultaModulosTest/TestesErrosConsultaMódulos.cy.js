@@ -28,7 +28,7 @@ describe('Teste erros possúveis para o usuário', () => {
         cy.get('#cnpj').type('13.094.739/0001-51');
         cy.get('#consultarModulosBtn').click();
         cy.url().should('equal', 'https://consulta-bkp.vercel.app/erroCancelado.html');
-        cy.wait(3000);
+        cy.wait(2000);
     });
 
     it('Erro consulta, CNPJ DEVENDO', () => {
@@ -36,7 +36,7 @@ describe('Teste erros possúveis para o usuário', () => {
         cy.get('#cnpj').type('47.687.346/0001-73');
         cy.get('#consultarModulosBtn').click();
         cy.url().should('include', 'https://consulta-bkp.vercel.app/erroDevendo.html');
-        cy.wait(3000);
+        cy.wait(2000);
     });
 
     it('Erro consulta - NÃO TEM BACKUP', () => {
