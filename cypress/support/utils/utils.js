@@ -5,7 +5,6 @@ export function loginSession() {
     // Use o método cy.session com um identificador único e o setup
     cy.session([email, password], () => {
         cy.visit("/entrar");
-
         cy.get('#email', {log: false}).type(email, {log: false});
         cy.get('#senhaLogin', {log: false}).type(password, {log: false});
         cy.get('#entrar').click();

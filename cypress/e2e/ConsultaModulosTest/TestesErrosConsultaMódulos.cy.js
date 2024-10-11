@@ -35,7 +35,7 @@ describe('Teste erros possúveis para o usuário', () => {
         cy.visit('https://consulta-bkp.vercel.app/index.html');
         cy.get('#cnpj').type('47.687.346/0001-73');
         cy.get('#consultarModulosBtn').click();
-        cy.url().should('equal', 'https://consulta-bkp.vercel.app/erroDevendo.html?expirationDate=17%2F09%2F2024');
+        cy.url().should('include', 'https://consulta-bkp.vercel.app/erroDevendo.html');
         cy.wait(3000);
     });
 

@@ -1,4 +1,4 @@
-import {inactivateProducts, loginSession} from '../support/utils/utils';
+import {inactivateProducts, loginSession} from '../../support/utils/utils';
 
 describe('InativarProdutoGA', () => {
 
