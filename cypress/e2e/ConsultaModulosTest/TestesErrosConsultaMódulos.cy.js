@@ -33,7 +33,7 @@ describe('Teste erros possúveis para o usuário', () => {
 
     it('Erro consulta, CNPJ DEVENDO', () => {
         cy.visit('https://consulta-bkp.vercel.app/index.html');
-        cy.get('#cnpj').type('47.687.346/0001-73');
+        cy.get('#cnpj').type('08354004333');
         cy.get('#consultarModulosBtn').click();
         cy.url().should('include', 'https://consulta-bkp.vercel.app/erroDevendo.html');
         cy.wait(2000);
