@@ -6,7 +6,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // Implementar ouvintes de eventos Node aqui
     },
-    baseUrl: 'https://app.gerencieaqui.com.br',
+    baseUrl: 'https://dev.gerencieaqui.com.br',
     env: {
       email: process.env.CYPRESS_EMAIL,
       password: process.env.CYPRESS_PASSWORD
