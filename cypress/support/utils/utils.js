@@ -23,10 +23,13 @@ export function login() {
 
          // Verifica para qual URL o usuário foi redirecionado
         cy.url().then((url) => {
-        if (url.includes('/selecao-empresa')) {
-            cy.log('Usuário redirecionado para a página de seleção de empresa');
-            clicarBotaoAcessar(cnpj);
-        } else if (url.includes('/dashboard')) {
+        if (url.includes('/selecao-empresa/')) {
+            cy.log('Usuário redirecionado para a página de seleção de empresa')
+            cy.get('tbody td.ui-outputlabel.ui-widget')
+                    .contains('475.351.888-42')
+                    .parent()
+                    .find('a[onclick*=Acessar]').click
+        } else if (url.includes('/dashboard/')) {
             cy.log('Usuário redirecionado para o dashboard');
         } else {
             cy.log('Usuário redirecionado para uma URL inesperada: ' + url);
@@ -34,12 +37,6 @@ export function login() {
     });
 }
 
-function clicarBotaoAcessar(cnpj) {
-    // Encontra o label que contém o CNPJ específico
-    cy.contains('label', cnpj).parents('tr').within(() => {
-        cy.contains('a', 'Acessar').click();
-    });
-}
 
 
 export function registerProduct(barra, nome, marca, custo, margemVenda, ncm) {
