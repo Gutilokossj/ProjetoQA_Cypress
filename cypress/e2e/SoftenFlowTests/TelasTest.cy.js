@@ -15,6 +15,11 @@ describe('Testes cabeçalho', () => {
             .contains('Contact')
             .click()
             cy.url().should('equal','http://192.168.14.239:4000/contact');
+
+            //Voltar para página inicial
+            cy.get('.flex.flex-col.items-center.max-w-sm.mx-auto.text-center')
+            .find('a').contains('Home').click()
+            cy.url().should('equal', 'http://192.168.14.239:4000/')
    });
 
    it('Teste Tasks', () => {
@@ -23,6 +28,11 @@ describe('Testes cabeçalho', () => {
             .contains('Tasks')
             .click()
             cy.url().should('eq','http://192.168.14.239:4000/tasks')
+
+            //Voltar para página inicial
+            cy.get('.flex.flex-col.items-center.max-w-sm.mx-auto.text-center')
+            .find('a').contains('Home').click()
+            cy.url().should('equal', 'http://192.168.14.239:4000/')
     });
 
     it('Teste Tema/Botão', () => {
@@ -84,4 +94,5 @@ describe('Testes corpo', () => {
             cy.url().should('include', 'http://192.168.14.239:4000/tables');
         });
     });
+    
 });
