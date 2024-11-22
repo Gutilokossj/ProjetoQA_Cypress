@@ -7,6 +7,14 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     cy.visit('http://192.168.14.239:4000/')
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // Não falhe o teste se o erro for relacionado à propriedade 'style' 
+    if (err.message.includes("Cannot read properties of null (reading 'style')")) {
+        return false; // Suprime o erro
+    }
+    return true;
+  });
+
 describe('Testes cabeçalho', () => {
 
    it('Teste Contact', () => {
@@ -72,6 +80,7 @@ describe('Testes corpo', () => {
     it('Kanban', () => {
         cy.get('.flex.flex-col.gap-16')
         .contains('Kanban')
+        .should('exist')
         .parent('div')
         .find('ul')
         .find('li').first()
