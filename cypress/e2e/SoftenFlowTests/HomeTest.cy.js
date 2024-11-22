@@ -9,14 +9,15 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 it('Teste Favorito', () => {
     cy.wait(1000);
 
-    // Passo 1: Localiza o ícone de estrela desmarcada
+    
     cy.get('.flex.flex-col.gap-16')
-        .contains('Enrollments') // Encontra o texto
+        .contains('Enrollments')
         .parent('div') // Vai para o pai
         .find('ul')
-        .find('li').first() // Pega o primeiro <li>
+        .find('li').first()
         .find('a')
         .find('svg')
+        .wait(3000)
         .first()
         .invoke('show')
         .should('be.visible')
@@ -27,7 +28,7 @@ it('Teste Favorito', () => {
                 cy.wrap($svg).click(); // Desmarcar
                 cy.wrap($svg).should('not.have.class', 'text-yellow-400'); // Verifica que a estrela foi desmarcada
 
-                // Após desmarcar, precisamos garantir que o SVG estará visível antes de marcar novamente
+                
                 cy.wrap($svg)
                     .invoke('show') // Torna o SVG visível
                     .realHover() // Simula o hover no elemento
