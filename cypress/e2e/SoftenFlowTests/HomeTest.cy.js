@@ -525,5 +525,181 @@ describe('Extras', () => {
 
                     });
                 });
-       });      
+    });
+       
+    it('Teste expansão (+) linha - Kanban', () => {
+        cy.wait(1000);
+
+        cy.get('.flex.flex-col.gap-16')
+        .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+        .contains('Kanban')
+        .closest('div') // Encontra o elemento mais próximo do critério
+        .find('li')
+        .then(($initialItems) => {
+            const initialCount = $initialItems.length;
+    
+            cy.get('.flex.flex-col.gap-16')
+                .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                .contains('Kanban')
+                .closest('div')
+                .find('button svg path[d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"]')
+                .should('be.visible')
+                .closest('button') // Volta para o botão que contém o SVG
+
+
+            // Valida se o número de <li> aumentou
+            cy.get('.flex.flex-col.gap-4.lg\\:flex-row')
+                .find('li')
+                .should('have.length.greaterThan', initialCount); // Número deve ser maior que o inicial
+                
+             // Continua clicando até o ícone mudar
+             cy.get('.flex.flex-col.gap-16')
+             .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+             .contains('Kanban')
+             .closest('div')
+             .find('button svg path[d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"]')
+             .should('be.visible')
+             .closest('button')
+             .then(($button) => {
+                 let previousClass = $button.find('svg path').attr('class'); // Pega a classe do path
+
+                 // Continue clicando até a classe mudar
+                 cy.wrap($button).should('have.class', 'cursor-pointer')
+                     .then(function clickUntilIconChanges() {
+                         cy.wrap($button).click({ scrollBehavior: true });
+
+                         cy.wrap($button).find('svg path').should('not.have.class', previousClass); // Verifica se a classe mudou
+                         previousClass = $button.find('svg path').attr('class'); // Atualiza a classe para o próximo clique
+            
+                });
+            });   
+        });
+    });
+
+    it('Teste espansão total (olho) - Kanban', () => {
+        cy.wait(1000)
+
+                cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Kanban')
+                    .closest('div')
+                    .find('button svg path[d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"]')
+                    .should('be.visible')
+                    .closest('button') // Volta para o botão que contém o SVG
+                    .then(($button) => {
+                        const initialClass = $button.find('svg path').attr('class'); // Armazena a classe inicial do ícone
+    
+                        // Verifica se a classe mudou logo após o clique
+                        cy.wrap($button).find('svg path').should('not.have.class', initialClass); // A classe deve mudar
+
+                    //Conta o total de <li> na tela
+                    cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Kanban')
+                    .closest('div') // Encontra o elemento mais próximo do critério
+                    .find('li')
+                    .then(($initialItems) => {
+                        const totalCount = $initialItems.length; // Armazena o número total de <li>
+
+
+                    cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Kanban')
+                    .closest('div')
+                    .find('li')
+                    .should('have.length', totalCount); // Verifica se o número de <l> é igual ao total contado anteriormente
+                    
+
+                    });
+                });
+    });
+
+    it('Teste expansão (+) linha - Tables', () => {
+        cy.wait(1000);
+
+        cy.get('.flex.flex-col.gap-16')
+        .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+        .contains('Tables')
+        .closest('div') // Encontra o elemento mais próximo do critério
+        .find('li')
+        .then(($initialItems) => {
+            const initialCount = $initialItems.length;
+    
+            cy.get('.flex.flex-col.gap-16')
+                .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                .contains('Tables')
+                .closest('div')
+                .find('button svg path[d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"]')
+                .should('be.visible')
+                .closest('button') // Volta para o botão que contém o SVG
+
+
+            // Valida se o número de <li> aumentou
+            cy.get('.flex.flex-col.gap-4.lg\\:flex-row')
+                .find('li')
+                .should('have.length.greaterThan', initialCount); // Número deve ser maior que o inicial
+                
+             // Continua clicando até o ícone mudar
+             cy.get('.flex.flex-col.gap-16')
+             .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+             .contains('Tables')
+             .closest('div')
+             .find('button svg path[d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"]')
+             .should('be.visible')
+             .closest('button')
+             .then(($button) => {
+                 let previousClass = $button.find('svg path').attr('class'); // Pega a classe do path
+
+                 // Continue clicando até a classe mudar
+                 cy.wrap($button).should('have.class', 'cursor-pointer')
+                     .then(function clickUntilIconChanges() {
+                         cy.wrap($button).click({ scrollBehavior: true });
+
+                         cy.wrap($button).find('svg path').should('not.have.class', previousClass); // Verifica se a classe mudou
+                         previousClass = $button.find('svg path').attr('class'); // Atualiza a classe para o próximo clique
+            
+                });
+            });   
+        });
+    });
+
+    it('Teste espansão total (olho) - Tables', () => {
+        cy.wait(1000)
+
+                cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Tables')
+                    .closest('div')
+                    .find('button svg path[d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"]')
+                    .should('be.visible')
+                    .closest('button') // Volta para o botão que contém o SVG
+                    .then(($button) => {
+                        const initialClass = $button.find('svg path').attr('class'); // Armazena a classe inicial do ícone
+    
+                        // Verifica se a classe mudou logo após o clique
+                        cy.wrap($button).find('svg path').should('not.have.class', initialClass); // A classe deve mudar
+
+                    //Conta o total de <li> na tela
+                    cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Tables')
+                    .closest('div') // Encontra o elemento mais próximo do critério
+                    .find('li')
+                    .then(($initialItems) => {
+                        const totalCount = $initialItems.length; // Armazena o número total de <li>
+
+
+                    cy.get('.flex.flex-col.gap-16')
+                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                    .contains('Tables')
+                    .closest('div')
+                    .find('li')
+                    .should('have.length', totalCount); // Verifica se o número de <l> é igual ao total contado anteriormente
+                    
+
+                    });
+                });
+    });
+
+    
 });
