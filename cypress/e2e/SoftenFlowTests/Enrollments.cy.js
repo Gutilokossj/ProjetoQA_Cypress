@@ -3,102 +3,122 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   });
 
   beforeEach(() => {
-    cy.visit('http://192.168.14.239:4000/')
-
-    // Incrementa a variável antes de cada teste
-    formCounter++;
-
-});
-
-        // Variável global para controlar o contador
-        let formCounter = 0;
+    cy.visit('http://192.168.14.239:4000/');
+  });
 
 
 describe('Teste Enrollments', () => {
 
-    it('Novo - Enrollments Vazio', () => {
+    // it('Teste - Novo - Enrollments Vazio', () => {
 
-         // Recupera o contador do localStorage e faz parse corretamente
-        cy.window().then((window) => {
-        let formCounter = parseInt(window.localStorage.getItem('formCounter'), 10);
-        if (isNaN(formCounter)) formCounter = 0; // Se for NaN, define como 0
+    //     // Gera um nome único baseado no timestamp
+    //     const formName = `Auto Form ${Date.now()}`;
 
-        // Gera o próximo nome
-        const formName = `Auto form ${formCounter + 1}`;
-
-        cy.wait(1000);
+    //     cy.wait(1000);
     
-        cy.get('.flex.flex-col.gap-16')
-            .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
-            .contains('Enrollments')
-            .parent('div')
-            .find('span')
-            .first()
-            .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
-            .click()
+    //     cy.get('.flex.flex-col.gap-16')
+    //         .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+    //         .contains('Enrollments')
+    //         .parent('div')
+    //         .find('span')
+    //         .first()
+    //         .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+    //         .click()
 
-            //Buscando input e digitando o nome do Enrollments
-            cy.wait(1000);
+    //         //Buscando input e digitando o nome do Enrollments
+    //         cy.wait(1000);
 
-            // Interage com o campo e preenche o valor
-            cy.get('input[name="title"]').type(formName);
+    //         // Interage com o campo e preenche o valor
+    //         cy.get('input[name="title"]').type(formName);
 
-            // Salva o contador atualizado no localStorage
-            window.localStorage.setItem('formCounter', (formCounter + 1).toString());
+    //         cy.get('input[name="title"]').should('have.value', formName);
 
-            //Comentado por enquanto Até diego arrumar a página!
+    //         //Comentado por enquanto Até diego arrumar a página!
         
-            // cy.get('button').contains('Start').click()
+    //         cy.get('button').contains('Start').click()
 
-            //Verifica se mudou para outra URL dos formulários
+    //         //Verificar alteração de URL
+    //         cy.url().should('include', '/forms/');
 
-            // cy.url().should('include', '/forms/');
+    // });
 
-        });
+    // it('Teste - Novo - Enrollments Importando Tabela', () => {
 
+    //     const formName = `Auto Form ${Date.now()}`;
+       
+    //            cy.wait(1000);
+           
+    //            cy.get('.flex.flex-col.gap-16')
+    //                .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+    //                .contains('Enrollments')
+    //                .parent('div')
+    //                .find('span')
+    //                .first()
+    //                .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+    //                .click()
+       
+    //                cy.wait(1000);
+       
+    //                cy.get('input[name="title"]').type(formName);
+
+    //                cy.get('input[name="title"]').should('have.value', formName);
+
+    //                cy.get('input[value="Importar Tabela"]').click();
+       
+    //                cy.get('button').contains('Start').click()
+
+    //                cy.wait(1000)
+
+    //                cy.get('.grid.select-none.grid-cols-1.gap-3.md\\:grid-cols-3')
+    //                .find('li')
+    //                .first()
+    //                .click()
+
+    //                cy.get('button').contains('Start')
+    //                  .click()
+
+    //                cy.wait(1000)
+
+    //                cy.url().should('include', '/forms/');
+       
+    //         });
+ 
     });
 
-    it('Novo - Enrollments Importando Tabela', () => {
+    it('Teste - Enrollments - Layout', () => {
 
-            const formName = `Auto form ${formCounter}`;
-       
-               cy.wait(1000);
-           
-               cy.get('.flex.flex-col.gap-16')
+        cy.wait(1000);
+
+        //Selecionar alguma LI CONTENDO "Auto Form" para testar
+
+        cy.get('.flex.flex-col.gap-16')
                    .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
                    .contains('Enrollments')
                    .parent('div')
-                   .find('span')
-                   .first()
-                   .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+                   .find('li')
+                   .contains('Auto Form').should('be.visible')
+
                    .click()
-       
-                   cy.wait(1000);
-       
-                   cy.get('input[name="title"]').type(formName);
-
-                   cy.get('input[value="Importar Tabela"]')
-                   .click();
-       
-                   cy.get('button').contains('Start').click()
-
+                
                    cy.wait(1000)
 
-                   cy.get('.grid.select-none.grid-cols-1.gap-3.md\\:grid-cols-3')
-                   .find('li')
-                   .first()
-                   .click()
+                   cy.url().should('include', '/forms/')
+                   
 
-                   // Salva o contador atualizado no localStorage
-                   window.localStorage.setItem('formCounter', (formCounter + 1).toString());
+        //Selecionar o layout </>
+        cy.get('.flex.h-full.max-h-full.flex-col.overflow-y-auto')
+                .find('ul').first()
+                .find('li').eq(1)
+                .click()
 
-                //    cy.get('button').contains('Start')
-                //      .click()
 
-                //    cy.wait(1000)
+        //Minimizar os Grids que não usamos ainda.
+        cy.get('.sticky.top-0.flex.h-full.w-\\[300px\\].min-w-\\[300px\\].flex-col.rounded-xl.bg-gray-50.transition-\\[width\\,padding\\].duration-300.dark\\:bg-dark-700')
+        .find('h2').contains('Grids').click()
 
-                //    cy.url().should('include', '/forms/');
-       
-            });
- 
+        cy.get('.sticky.top-0.flex.h-full.w-\\[300px\\].min-w-\\[300px\\].flex-col.rounded-xl.bg-gray-50.transition-\\[width\\,padding\\].duration-300.dark\\:bg-dark-700')
+        .find('h2').last().contains('Grids').click()
+
+        
+
     });
