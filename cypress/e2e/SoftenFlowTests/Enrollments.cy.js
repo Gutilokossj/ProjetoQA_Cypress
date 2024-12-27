@@ -85,7 +85,7 @@ describe('Teste Enrollments', () => {
  
     });
 
-    it('Teste - Enrollments - Layout', () => {
+    it('Teste - Enrollments - Layout - Button Selection', () => {
 
         cy.wait(1000);
 
@@ -111,14 +111,42 @@ describe('Teste Enrollments', () => {
                 .find('li').eq(1)
                 .click()
 
-
-        //Minimizar os Grids que não usamos ainda.
-        cy.get('.sticky.top-0.flex.h-full.w-\\[300px\\].min-w-\\[300px\\].flex-col.rounded-xl.bg-gray-50.transition-\\[width\\,padding\\].duration-300.dark\\:bg-dark-700')
-        .find('h2').contains('Grids').click()
-
-        cy.get('.sticky.top-0.flex.h-full.w-\\[300px\\].min-w-\\[300px\\].flex-col.rounded-xl.bg-gray-50.transition-\\[width\\,padding\\].duration-300.dark\\:bg-dark-700')
-        .find('h2').last().contains('Grids').click()
-
+ 
+        // Arraste o elemento para o destino
+        cy.get('li[title="Button selection"]').drag('.mx-0.transition-all.col-span-12.grid.grid-cols-12.gap-4.rounded-lg');
         
+        
+        cy.get('.col-span-6.md\\:col-span-6.\\!col-span-6')
+        .find('input').type('Campo opção - teste')
 
+        cy.get('.col-span-6.flex.flex-col.gap-2')
+        .find('input').type('Opção 1 {enter}') //Para dar um enter após escrever, é bom lembrar
+        .type('Opção 2 {enter}')
+
+        //Deixar "Required Field" marcado
+        cy.contains('span', 'Required Field').click();
+
+        //Deixar "Editable Field" desmarcado
+        cy.contains('span', 'Editable Field').click();
+
+        //Salvar o input
+        cy.get('.absolute.bottom-2.left-0.flex.w-full.justify-end.gap-4.rounded-b-xl.p-4')
+            .find('button')
+            .contains('Save')
+            .should('not.be.disabled') // Verificar se o botão não está desabilitado
+            .should('have.css', 'pointer-events', 'auto') // Verificar se o botão pode ser clicado
+            .click({ force: true }); // Força o clique, ignorando o overflow ou outros fatores de visibilidade
+
+        //Salvar input criado novamente
+            cy.get('.flex.flex-1.items-center.justify-end.gap-2')
+                .find('button')
+                .contains('Save')
+                .click()
+
+        // Verificar se o elemento está visível após o clique
+            cy.wait(1000)
+
+            cy.get('span.font-sans.font-bold')  // Seleciona o <span> com as classes principais
+            .should('be.visible');
     });
+
