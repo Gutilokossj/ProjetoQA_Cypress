@@ -3,7 +3,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   });
 
   beforeEach(() => {
-    cy.visit('http://192.168.14.239:4000/')
+    cy.visit('/')
 });
 
 describe('Teste favorito', () => {

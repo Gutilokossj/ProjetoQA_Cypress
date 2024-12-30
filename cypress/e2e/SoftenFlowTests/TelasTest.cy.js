@@ -4,7 +4,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 
   beforeEach(() => {
-    cy.visit('http://192.168.14.239:4000/')
+    cy.visit('/')
 });
 
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -22,12 +22,12 @@ describe('Testes cabeçalho', () => {
             .find('li')
             .contains('Contact')
             .click()
-            cy.url().should('equal','http://192.168.14.239:4000/contact');
+            cy.url().should('equal', Cypress.config('baseUrl') + '/contact');
 
             //Voltar para página inicial
             cy.get('.flex.flex-col.items-center.max-w-sm.mx-auto.text-center')
             .find('a').contains('Home').click()
-            cy.url().should('equal', 'http://192.168.14.239:4000/')
+            cy.url().should('equal', Cypress.config('baseUrl') + '/')
    });
 
    it('Teste Tasks', () => {
@@ -35,12 +35,12 @@ describe('Testes cabeçalho', () => {
             .find('li')
             .contains('Tasks')
             .click()
-            cy.url().should('eq','http://192.168.14.239:4000/tasks')
+            cy.url().should('eq', Cypress.config('baseUrl') + '/tasks')
 
             //Voltar para página inicial
             cy.get('.flex.flex-col.items-center.max-w-sm.mx-auto.text-center')
             .find('a').contains('Home').click()
-            cy.url().should('equal', 'http://192.168.14.239:4000/')
+            cy.url().should('equal', Cypress.config('baseUrl')  + '/')
     });
 
     it('Teste Tema/Botão', () => {
@@ -73,7 +73,7 @@ describe('Testes corpo', () => {
         .then(($li) => {
             
             cy.wrap($li).click(); // Exemplo de clicar no primeiro li, se necessário
-            cy.url().should('include', 'http://192.168.14.239:4000/forms');
+            cy.url().should('include', '/forms');
         });
     });
 
@@ -87,7 +87,7 @@ describe('Testes corpo', () => {
         .then(($li) => {
             
             cy.wrap($li).click(); // Exemplo de clicar no primeiro li, se necessário
-            cy.url().should('include', 'http://192.168.14.239:4000/kanban');
+            cy.url().should('include', '/kanban');
         });
     });
 
@@ -100,7 +100,7 @@ describe('Testes corpo', () => {
         .then(($li) => {
             
             cy.wrap($li).click(); // Exemplo de clicar no primeiro li, se necessário
-            cy.url().should('include', 'http://192.168.14.239:4000/tables');
+            cy.url().should('include', '/tables');
         });
     });
     
