@@ -24,4 +24,18 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import "cypress-real-events/support";
+
+Cypress.Commands.add("dragTo", { prevSubject: "element"}, (subject, targetEl) => {
+    const dataTransfer = new DataTransfer();
+
+    // Rolando até o elemento alvo
+    cy.get(targetEl).scrollIntoView({ duration: 500 });
+    
+    cy.get(subject).trigger('dragstart', {
+        DataTransfer
+        });
+        cy.get(targetEl).trigger('drop', {
+            DataTransfer
+        })
+    }
+);

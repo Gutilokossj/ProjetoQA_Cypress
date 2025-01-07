@@ -17,8 +17,8 @@
 import './commands'
 import "cypress-real-events/support";
 import 'cypress-drag-drop';
-import '@4tw/cypress-drag-drop';
 require('cypress-xpath');
+import '@4tw/cypress-drag-drop';
 
 
 // Alternatively you can use CommonJS syntax:
