@@ -4,6 +4,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
   beforeEach(() => {
     cy.visit('/');
+    cy.viewport(1920, 1080)
   });
 
 
@@ -80,8 +81,25 @@ describe('Teste Enrollments', () => {
 
                    cy.wait(1000)
 
-                   cy.url().should('include', '/forms/');
-       
+                   cy.get('.border-col.rounded-t-xl.border-b.bg-white.px-4.py-2.font-spartan.text-lg.dark\\:border-dark-500.dark\\:bg-dark-700.flex.items-center.justify-between.py-4')
+                        .eq(1)
+                        .find('label')
+                        .contains('Enrollments').should('be.visible')
+
+                    // Arraste o elemento para o destino
+                    cy.get('.relative.col-span-12.grid.h-full.grid-cols-6.gap-4.p-8.dark\\:bg-dark-700.lg\\:col-span-3')
+                    .find('ul')
+                    .find('li').eq(1)
+                    .dragTo('.col-span-6.gap-4');
+                            
+                    cy.wait(500);  // Ajuste o tempo conforme necessário
+
+                    cy.get('.flex.justify-end.gap-4').eq(4)
+                    .find('button').contains('Save')
+                    .scrollIntoView()
+                    .click()
+
+                    cy.wait(500);
             });
 
     it('Teste - Enrollments - Layout - Button Selection', () => {
@@ -381,7 +399,6 @@ describe('Teste Enrollments', () => {
 });
 
     });
-
 
 
     //funções
