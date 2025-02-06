@@ -24,14 +24,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         .contains('Enrollments')
         .parent('div')
         .find('li')
-        .first()
+        .should('exist')  // Garante que o <li> existe no DOM
         .then(($li) => {
             if ($li.length === 0) {
                 cy.log('Nenhum formulário restante.');
-                return; // Sai da função se não houver mais formulários
+                return;  // Sai da função
             }
 
-            cy.wrap($li).click(); // Abre o primeiro formulário
+            // Agora que sabemos que há <li>s, prossegue para o primeiro
+
+            cy.wrap($li.first()).click();  // Abre o primeiro formulário
 
             cy.get('.flex.h-full.max-h-full.flex-col.overflow-y-auto')
                 .find('ul').eq(1)
@@ -41,9 +43,28 @@ Cypress.on('uncaught:exception', (err, runnable) => {
             cy.get('.select-none.text-gray-800.dark\\:text-gray-400.bg-slate-300.dark\\:bg-dark-700.py-1.px-2.rounded-md.mx-1')
                 .invoke('text')
                 .then((formName) => {
-                    cy.log('Nome do formulário:', formName);
 
-                    cy.get('input[type="text"]').type(formName);
+                    const trimmedName = formName.trim(); // Remove espaços extras
+
+                                if (!trimmedName) {  
+                                    cy.log('Nome do formulário está vazio, apenas confirmando.');
+
+                                    // Apenas clica no botão "Confirm" sem digitar nada
+                                    cy.get('.flex.justify-end.gap-4')
+                                        .find('button')
+                                        .contains('Confirm')
+                                        .click();
+
+                                    cy.wait(1000); // Aguarda um tempo antes de verificar novamente
+
+                                    // Chama a função novamente para excluir o próximo formulário
+                                    excluirProximoFormulario();
+                                    return; // Interrompe a execução se o nome estiver vazio
+                                }
+
+                    cy.log('Nome do formulário:', trimmedName);
+
+                    cy.get('input[type="text"]').type(trimmedName);
 
                     cy.get('.flex.justify-end.gap-4')
                         .find('button')
