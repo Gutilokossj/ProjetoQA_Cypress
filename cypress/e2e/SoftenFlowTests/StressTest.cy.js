@@ -7,19 +7,135 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     cy.viewport(1920, 1080)
   });
 
+  describe('Teste de cadastro', () => {
+
+        it('Cadastro Enrollments - Vazio', () => {
+            cadastrarProximoEnrollmentsVazio();
+        });
+
+        it('Cadastro Enrollments - Importar Tabela', () => {
+            cadastrarProximoEnrollmentsImportartabela();
+        });
+    
+  });
+
   describe('Testes de Exclusão', () => {
         
-        it('Teste exclusão Enrollments em loop', () => {
+        it('Teste exclusão Enrollments', () => {
             excluirProximoFormulario();
         });
 
     });
-
     
-  //Funções
+//Funções
+
+  function cadastrarProximoEnrollmentsVazio(){
+    const maxTentativasCadastrarEnrollments = 20; // Define um limite para evitar o loop infinito
+
+    for (let tentativaCadastroEnrollments = 0; tentativaCadastroEnrollments < maxTentativasCadastrarEnrollments; tentativaCadastroEnrollments++) {
+    
+    // Gera um nome único baseado no timestamp
+    const formName = `Auto Form ${Date.now()}`;
+
+    cy.visit('/');
+
+    cy.get('.flex.flex-col.gap-16')
+        .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+        .contains('Enrollments')
+        .parent('div')
+        .find('span')
+        .first()
+        .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+        .click()
+
+        //Buscando input e digitando o nome do Enrollments
+            cy.wait(1000);
+
+            // Interage com o campo e preenche o valor
+            cy.get('input[name="title"]').type(formName);
+
+            cy.get('input[name="title"]').should('have.value', formName);
+
+            //Comentado por enquanto Até diego arrumar a página!
+        
+            cy.get('button').contains('Start').click()
+
+            //Verificar alteração de URL
+            cy.url().should('include', '/forms/');
+
+            cy.wait(500);    
+    }
+}
+
+  function cadastrarProximoEnrollmentsImportartabela(){
+    const maxTentativasCadastrarEnrollmentsImporta = 20;
+
+    for (let tentativasCadastroEnrollmentsImporta = 0; tentativasCadastroEnrollmentsImporta < maxTentativasCadastrarEnrollmentsImporta; tentativasCadastroEnrollmentsImporta++) {
+
+        const formName = `Auto Form ${Date.now()}`;
+
+               cy.visit('/');
+           
+               cy.get('.flex.flex-col.gap-16')
+                   .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+                   .contains('Enrollments')
+                   .parent('div')
+                   .find('span')
+                   .first()
+                   .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+                   .click()
+       
+                   cy.wait(1000);
+       
+                   cy.get('input[name="title"]').type(formName);
+
+                   cy.get('input[name="title"]').should('have.value', formName);
+
+                   cy.get('input[value="Importar Tabela"]').click();
+       
+                   cy.get('button').contains('Start').click()
+
+                   cy.wait(1000)
+
+                   cy.get('.grid.select-none.grid-cols-1.gap-3.md\\:grid-cols-3')
+                   .find('li')
+                   .first()
+                   .click()
+
+                   cy.get('button').contains('Start')
+                     .click()
+
+                   cy.wait(1000)
+
+                   cy.get('.border-col.rounded-t-xl.border-b.bg-white.px-4.py-2.font-spartan.text-lg.dark\\:border-dark-500.dark\\:bg-dark-700.flex.items-center.justify-between.py-4')
+                        .eq(1)
+                        .find('label')
+                        .contains('Enrollments').should('be.visible')
+
+                    // Arraste o elemento para o destino
+                    cy.get('.relative.col-span-12.grid.h-full.grid-cols-6.gap-4.p-8.dark\\:bg-dark-700.lg\\:col-span-3')
+                    .find('ul')
+                    .find('li').eq(1)
+                    .dragTo('.col-span-6.gap-4');
+                            
+                    cy.wait(500);  // Ajuste o tempo conforme necessário
+
+                    cy.get('.flex.justify-end.gap-4').eq(4)
+                    .find('button').contains('Save')
+                    .scrollIntoView()
+                    .click()
+
+                    cy.wait(500);
+    }
+ }
 
   function excluirProximoFormulario() {
-    cy.get('.flex.flex-col.gap-16')
+
+    const maxTentativasExcluir = 20;
+    for (let tentativaExclusãoEnrollments = 0; tentativaExclusãoEnrollments < maxTentativasExcluir; tentativaExclusãoEnrollments++) {
+
+
+            cy.get('.flex.flex-col.gap-16')
         .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
         .contains('Enrollments')
         .parent('div')
@@ -71,10 +187,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
                         .contains('Confirm')
                         .click();
 
-                    cy.wait(1000); // Aguarda um tempo antes de verificar novamente
+                    cy.wait(500);
 
-                    // Chama a função novamente para excluir o próximo formulário
-                    excluirProximoFormulario();
-                });
+            });
         });
+    }
 }
+
+                    
