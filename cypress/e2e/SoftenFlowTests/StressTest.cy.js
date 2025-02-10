@@ -16,6 +16,10 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         it('Cadastro Enrollments - Importar Tabela', () => {
             cadastrarProximoEnrollmentsImportartabela();
         });
+
+           it('Cadastro Kanban - Vazio', () => {
+               cadastrarProximoKanbanVazio();
+           });
     
   });
 
@@ -30,9 +34,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 //Funções
 
   function cadastrarProximoEnrollmentsVazio(){
-    const maxTentativasCadastrarEnrollments = 20; // Define um limite para evitar o loop infinito
+    const maxTentativasCadastrarEnrollmentsVazio = 20; // Define um limite para evitar o loop infinito
 
-    for (let tentativaCadastroEnrollments = 0; tentativaCadastroEnrollments < maxTentativasCadastrarEnrollments; tentativaCadastroEnrollments++) {
+    for (let tentativaCadastroEnrollments = 0; tentativaCadastroEnrollments < maxTentativasCadastrarEnrollmentsVazio; tentativaCadastroEnrollments++) {
     
     // Gera um nome único baseado no timestamp
     const formName = `Auto Form ${Date.now()}`;
@@ -56,14 +60,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
             cy.get('input[name="title"]').should('have.value', formName);
 
-            //Comentado por enquanto Até diego arrumar a página!
+            cy.intercept('POST', '**/enrollment').as('postEnrollment'); // Intercepta a requisição pra garantir que ele espere a resposta do servidor.
         
             cy.get('button').contains('Start').click()
+
+            cy.wait('@postEnrollment', { timeout: 10000 }).its('response.statusCode').should('eq', 201); // Aguarda o POST correto
 
             //Verificar alteração de URL
             cy.url().should('include', '/forms/');
 
-            cy.wait(500);    
+            cy.wait(500);
     }
 }
 
@@ -128,6 +134,49 @@ Cypress.on('uncaught:exception', (err, runnable) => {
                     cy.wait(500);
     }
  }
+
+  function cadastrarProximoKanbanVazio(){
+    const maxTentativasCadastrarKanbanVazio = 20;
+
+    for (let tentativasCadastroKanbanVazio = 0; tentativasCadastroKanbanVazio < maxTentativasCadastrarKanbanVazio; tentativasCadastroKanbanVazio++) {
+        
+        // Gera um nome único baseado no timestamp
+    const formName = `Auto Kanban ${Date.now()}`;
+
+    cy.visit('/');
+
+    cy.get('.flex.flex-col.gap-16')
+        .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
+        .contains('Kanban')
+        .parent('div')
+        .find('span')
+        .first()
+        .find('.itens-center.flex.h-fit.w-fit.justify-center.rounded-lg.bg-blue-600.p-2.text-white').should('be.visible')
+        .click()
+
+        //Buscando input e digitando o nome do Enrollments
+            cy.wait(1000);
+
+            // Interage com o campo e preenche o valor
+            cy.get('input[name="title"]').type(formName);
+
+            cy.get('input[name="title"]').should('have.value', formName);
+
+            //Comentado por enquanto Até diego arrumar a página!
+
+            cy.intercept('POST', '**/kanban').as('postKanban'); // Intercepta a requisição
+        
+            cy.get('button').contains('Start').click()
+
+            cy.wait('@postKanban', { timeout: 10000 }); // Aguarda a resposta do servidor
+
+            //Verificar alteração de URL
+            cy.url().should('include', '/kanban/');
+
+            cy.wait(500);    
+        
+    }
+  }
 
   function excluirProximoFormulario() {
 
