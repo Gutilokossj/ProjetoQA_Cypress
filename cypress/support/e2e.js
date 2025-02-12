@@ -20,6 +20,5 @@ import 'cypress-drag-drop';
 require('cypress-xpath');
 import '@4tw/cypress-drag-drop';
 
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

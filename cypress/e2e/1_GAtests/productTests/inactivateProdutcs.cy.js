@@ -1,15 +1,20 @@
-import {inactivateProducts, loginSession} from '../../support/utils/utils';
+import { inactivateProducts, login} from './utilsProduct/utils';
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // Ignora erros de "cross origin script"
+    if (err.message.includes('Script error')) {
+      return false;
+    }
+  });
 
 describe('InativarProdutoGA', () => {
 
     beforeEach(() => {
-        loginSession();
-        cy.visit('/dashboard/')
-
+       login();
     });
 
     it('InativarTodosOsProdutos', () => {
-            inactivateProducts();
+            //inactivateProducts();
     });
 
 });

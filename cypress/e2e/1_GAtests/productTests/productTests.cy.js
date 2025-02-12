@@ -1,4 +1,4 @@
-import {loginSession, registerProduct, saveProduct } from '../../../support/utils/utils';
+import {loginSession, registerProduct, saveProduct } from './utilsProduct/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('CadastrarProdutoGA', () => {

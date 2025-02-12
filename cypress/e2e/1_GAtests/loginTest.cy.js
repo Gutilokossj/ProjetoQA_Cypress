@@ -1,4 +1,4 @@
-const { login } = require("../../support/utils/utils");
+const { login } = require("./productTests/utilsProduct/utils");
 
 describe('TestesLogin', () => {
 
