@@ -69,7 +69,7 @@ describe('Testes corpo', () => {
         .contains('Enrollments')
         .parent('div')
         .find('ul')
-        .find('li').first()
+        .find('li').eq(1)
         .then(($li) => {
             
             cy.wrap($li).click(); // Exemplo de clicar no primeiro li, se necessário

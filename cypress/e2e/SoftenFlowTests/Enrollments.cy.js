@@ -413,7 +413,7 @@ describe('Teste Enrollments', () => {
                          .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
                          .contains('Enrollments')
                          .parent('div')
-                         .find('li')
+                         .find('li').eq(1)
                          .contains('Auto Form').should('be.visible')
       
                          .click()

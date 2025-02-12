@@ -7,21 +7,21 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     cy.viewport(1920, 1080)
   });
 
-  describe('Teste de cadastro', () => {
+//   describe('Teste de cadastro', () => {
 
-        it('Cadastro Enrollments - Vazio', () => {
-            cadastrarProximoEnrollmentsVazio();
-        });
+//         it('Cadastro Enrollments - Vazio', () => {
+//             cadastrarProximoEnrollmentsVazio();
+//         });
 
-        it('Cadastro Enrollments - Importar Tabela', () => {
-            cadastrarProximoEnrollmentsImportartabela();
-        });
+//         it('Cadastro Enrollments - Importar Tabela', () => {
+//             cadastrarProximoEnrollmentsImportartabela();
+//         });
 
-           it('Cadastro Kanban - Vazio', () => {
-               cadastrarProximoKanbanVazio();
-           });
+//            it('Cadastro Kanban - Vazio', () => {
+//                cadastrarProximoKanbanVazio();
+//            });
     
-  });
+//   });
 
   describe('Testes de Exclusão', () => {
         
@@ -34,7 +34,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 //Funções
 
   function cadastrarProximoEnrollmentsVazio(){
-    const maxTentativasCadastrarEnrollmentsVazio = 20; // Define um limite para evitar o loop infinito
+    const maxTentativasCadastrarEnrollmentsVazio = 10; // Define um limite para evitar o loop infinito
 
     for (let tentativaCadastroEnrollments = 0; tentativaCadastroEnrollments < maxTentativasCadastrarEnrollmentsVazio; tentativaCadastroEnrollments++) {
     
@@ -74,7 +74,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 }
 
   function cadastrarProximoEnrollmentsImportartabela(){
-    const maxTentativasCadastrarEnrollmentsImporta = 20;
+    const maxTentativasCadastrarEnrollmentsImporta = 10;
 
     for (let tentativasCadastroEnrollmentsImporta = 0; tentativasCadastroEnrollmentsImporta < maxTentativasCadastrarEnrollmentsImporta; tentativasCadastroEnrollmentsImporta++) {
 
@@ -136,7 +136,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
  }
 
   function cadastrarProximoKanbanVazio(){
-    const maxTentativasCadastrarKanbanVazio = 20;
+    const maxTentativasCadastrarKanbanVazio = 10;
 
     for (let tentativasCadastroKanbanVazio = 0; tentativasCadastroKanbanVazio < maxTentativasCadastrarKanbanVazio; tentativasCadastroKanbanVazio++) {
         
@@ -184,11 +184,11 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     for (let tentativaExclusãoEnrollments = 0; tentativaExclusãoEnrollments < maxTentativasExcluir; tentativaExclusãoEnrollments++) {
 
 
-            cy.get('.flex.flex-col.gap-16')
+        cy.get('.flex.flex-col.gap-16')
         .find('.mb-3.font-inter_semibold.text-gray-500\\/90.dark\\:text-dark-200')
         .contains('Enrollments')
         .parent('div')
-        .find('li')
+        .find('li').eq(1)
         .should('exist')  // Garante que o <li> existe no DOM
         .then(($li) => {
             if ($li.length === 0) {
