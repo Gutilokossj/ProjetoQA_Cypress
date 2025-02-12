@@ -29,30 +29,47 @@ describe('Teste erros possúveis para o usuário', () => {
         cy.contains('#errorMessage', 'CNPJ ou CPF inválido. Verifique e tente novamente.');
     });
 
-    it('Erro consulta, CNPJ CANCELADO/INATIVO', () => {
-        cy.get('#cnpj').type('13.094.739/0001-51');
+    it('Erro consulta, CNPJ CANCELADO OU NÃO É CLIENTE', () => {
+        cy.get('#cnpj').type('36.910.805/0005-43');
         cy.get('#consultarModulosBtn').click();
-        cy.url().should('equal', 'http://127.0.0.1:5500/docs/erroCancelado.html?cnpj=13094739000151');
+        cy.url().should('equal', 'http://127.0.0.1:5500/docs/erroCancelado.html?cnpj=36910805000543');
     });
 
     it('Erro consulta, CNPJ DEVENDO', () => {
         cy.get('#cnpj').type('30.688.045/0001-61');
         cy.get('#consultarModulosBtn').click();
-        cy.url().should('include', 'http://127.0.0.1:5500/docs/erroDevendo.html?cnpj=30688045000161');
+        cy.url().should('include', 'http://127.0.0.1:5500/docs/erroDevendo.html?cnpj=30688045000161&expirationDate=02%2F02%2F2025');
     });
 
-    it('Erro consulta - NÃO TEM BACKUP', () => {
+    it('Aviso consulta módulo SIEM - NÃO TEM BACKUP', () => {
         cy.get('#cnpj').type('10.251.142/0001-85'); // CNPJ de teste
         cy.get('#consultarModulosBtn').click();
         cy.url().should('equal', 'http://127.0.0.1:5500/docs/resultado.html?cnpj=10251142000185');
         
         cy.wait(2000); // Aguarde mais tempo, se necessário, para garantir que o redirecionamento ocorra.
         
-        cy.get('#exibeDetalhes').should('be.visible').click();
-        
-        // Aguardar que a URL final seja a do erro
-        cy.location('pathname').should('eq', 'http://127.0.0.1:5500/docs/erro.html');
+        cy.get('#mensagemSemBackup').contains("Cliente não possui módulo de Backup em nuvem!").should('be.visible');    
     });
-    
+
+    it('Aviso consulta módulo GA - NÃO TEM ENVIO XML', () => {
+        cy.get('#cnpj').type('12.862.008/0001-46'); // CNPJ de teste
+        cy.get('#consultarModulosBtn').click();
+        cy.url().should('equal', 'http://127.0.0.1:5500/docs/resultadoGA.html?cnpj=12862008000146');
+        
+        cy.wait(2000); // Aguarde mais tempo, se necessário, para garantir que o redirecionamento ocorra.
+        
+        cy.get('#mensagemSemBackup').contains("Cliente não utiliza envio xml automático!").should('be.visible');    
+    });
+
+    it('Aviso consulta BACKUP- NÃO TEM BACKUP', () => {
+        cy.get('#cnpj').type('10.251.142/0001-85'); // CNPJ de teste
+        cy.get('#consultaBKP').click();
+        cy.url().should('equal', 'http://127.0.0.1:5500/docs/erro.html?cnpj=10251142000185');
+        
+        cy.wait(2000); // Aguarde mais tempo, se necessário, para garantir que o redirecionamento ocorra.
+        
+        cy.get('.message').contains("Desculpe, não encontrei nenhuma informação de BACKUP ou Envio XML, verifique os módulos habilitados!").should('be.visible');    
+    });
+
     
 });
