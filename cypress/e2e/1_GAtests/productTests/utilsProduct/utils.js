@@ -1,32 +1,71 @@
-export function login() {
-    // Acesse variáveis de ambiente
+export function loginSession() {
     const email = Cypress.env('email');
     const password = Cypress.env('password');
-        cy.visit("/entrar");
-        cy.get('#email').clear()
-        cy.get('#email', {log: false}).type(email, {log: false});
-        cy.get('#senhaLogin', {log: false}).type(password, {log: false});
+
+    cy.session(['user-session'], () => {
+        cy.visit("/entrar")
+
+        cy.get('#email', { log: false })
+        .invoke('val', email)
+        .trigger('input') // Simula um evento de entrada para que o sistema reconheça
+        .should('have.value', email);
+        cy.get('#senhaLogin', { log: false})
+        .invoke('val', password)
+        .trigger('input')
+        .should('have.value', password);
+
+        cy.wait(500)
         cy.get('#entrar').click();
-        
+
         cy.get('#frmTabela\\:dtTabela_data')
             .find('tr')
             .contains('td', '475.351.888-42')  // Localiza a <td> que contém o CPF
             .parent()  // Vai até o <tr> pai
             .find('td')  // Busca todas as <td> dentro dessa linha
+            .wait(500)
             .find('a').contains('Acessar').click()  // Busca por "Acessar" na <td>
+    });
 }
 
-export function inactivateProducts(){
-    cy.visit('/dashboard')
-    cy.get('#menu > div.menu-corpo > ul > li').contains('span.menu-lista-texto', 'Cadastros').click();
-    cy.get('#menu > div.menu-corpo > ul > li').contains('span.menu-lista-texto', 'Cadastros > ul > li').find('#menu-lista-nivel-2-link > span.menu-lista-nivel-2-texto','Produto').click();
-    //cy.get('#menu > div.menu-corpo > ul > li:nth-child(2) > ul > li:nth-child(3) > a > span').click();
-    cy.get('#frmTabela\\:busca').type("%%%");
-    cy.get('#frmTabela\\:j_idt93').click();
-    cy.get('#frmTabela\\:dtTabela\\:j_idt90 > div > div.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default').click();
-    cy.get('#frmTabela\\:dtTabela_data > tr:nth-child(1) > td.ui-selection-column.ui-column-p-3 > div > div.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default.ui-state-active').click();
-    cy.get('#frmTabela\\:btnMaisOpcoes').click();
-    cy.get('#frmTabela\\:j_idt75 > ul > li:nth-child(1) > a > span.ui-menuitem-text').should('be.visible').click();
-    cy.get('#frmConfirm\\:j_idt211').should('be.visible').click();
+export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, vlCusto, margemVenda) {
+    cy.visit('/produto/');
+
+    cy.get('.ga-btn-group')
+      .find('button', 'frmTabela:cadastrosProduto')
+      .wait(500)
+      .click()
+      .wait(500);
+    cy.get('.ui-menuitem-text').contains("Cadastro Simplificado").should('be.visible').click();
+    cy.url().should('include','produto-simplificado/novo');
+        cy.get('#frmTabelaProd\\:nome').type(nome);
+        cy.get('#frmTabelaProd\\:listaCat')
+          .find('.ui-icon.ui-icon-triangle-1-s.ui-c').click()
+          .wait(500);;
+        cy.get('#frmTabelaProd\\:listaCat_items').should('be.visible')        
+          .find('li').contains(categoria)
+          .click();
+        cy.get('#frmTabelaProd\\:unid').clear().type(unidadeMedida);
+        cy.get('#frmTabelaProd\\:ncm').clear().type(ncm);
+        cy.get('#frmTabelaProd\\:ncm').should('have.value', ncm);
+        cy.get('#frmTabelaProd\\:vlcusto').clear().type(vlCusto);
+        cy.get('#frmTabelaProd\\:vlcusto').should('have.value', vlCusto);
+        cy.get('#frmTabelaProd\\:margemVenda').clear().wait(500);
+        cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda);
+        cy.get('#frmTabelaProd\\:vlvenda').click();
+
+    // cy.get('#frmTabelaProd\\:margemVenda').clear();
+    // cy.wait(500);
+
+    // cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda).then($input => {
+    //     cy.wrap($input)
+    //         .blur(); // Simula a perda de foco
+    // });
+
+  
+}
+
+export function saveProduct(){
+    cy.contains('#frmTabelaProd\\:salva > .ui-button-text', 'Salvar').should('be.visible').wait(1000);
+    cy.get('#frmTabelaProd\\:salva > .ui-button-text').click();
 
 }

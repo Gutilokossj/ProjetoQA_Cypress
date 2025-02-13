@@ -1,3 +1,21 @@
+export function login() {
+    // Acesse variáveis de ambiente
+    const email = Cypress.env('email');
+    const password = Cypress.env('password');
+        cy.visit("/entrar");
+        cy.get('#email').clear()
+        cy.get('#email', {log: false}).type(email, {log: false});
+        cy.get('#senhaLogin', {log: false}).type(password, {log: false});
+        cy.get('#entrar').click();
+        
+        cy.get('#frmTabela\\:dtTabela_data')
+            .find('tr')
+            .contains('td', '475.351.888-42')  // Localiza a <td> que contém o CPF
+            .parent()  // Vai até o <tr> pai
+            .find('td')  // Busca todas as <td> dentro dessa linha
+            .find('a').contains('Acessar').click()  // Busca por "Acessar" na <td>
+}
+
 export function loginSession() {
     const email = Cypress.env('email');
     const password = Cypress.env('password');
