@@ -1,3 +1,5 @@
+import { should } from "chai";
+
 export function loginSession() {
     const email = Cypress.env('email');
     const password = Cypress.env('password');
@@ -52,20 +54,14 @@ export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, v
         cy.get('#frmTabelaProd\\:margemVenda').clear().wait(500);
         cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda);
         cy.get('#frmTabelaProd\\:vlvenda').click();
-
-    // cy.get('#frmTabelaProd\\:margemVenda').clear();
-    // cy.wait(500);
-
-    // cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda).then($input => {
-    //     cy.wrap($input)
-    //         .blur(); // Simula a perda de foco
-    // });
-
-  
 }
 
 export function saveProduct(){
     cy.contains('#frmTabelaProd\\:salva > .ui-button-text', 'Salvar').should('be.visible').wait(1000);
     cy.get('#frmTabelaProd\\:salva > .ui-button-text').click();
 
+    cy.wait(500)
+    cy.get('.ui-messages-info ui-corner-all')
+      .find('ul')
+      .find('li').contains('Salvo com sucesso')
 }

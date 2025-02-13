@@ -13,9 +13,9 @@ describe('Teste Cadastro de Produtos', () => {
     });
 
     it('Cadastrar - Produto Simplificado', () => {
-      registerSimplifiedProduct("FANTA LARANJA 2L"," / ABRAÇADEIRAS","LT","22021000","3,75","5,0");
+      registerSimplifiedProduct("AUTOMÁTICO - FANTA LARANJA 2L"," / ABRAÇADEIRAS","LT","22021000","3,75","5,0");
 
-      //saveProduct();
+      saveProduct();
       
   });
 
