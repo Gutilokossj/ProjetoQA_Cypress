@@ -1,4 +1,4 @@
-import { should } from "chai";
+import { v4 as uuidv4 } from 'uuid';
 
 export function loginSession() {
     const email = Cypress.env('email');
@@ -32,13 +32,16 @@ export function loginSession() {
 export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, vlCusto, margemVenda) {
     cy.visit('/produto/');
 
-    cy.get('.ga-btn-group')
-      .find('button', 'frmTabela:cadastrosProduto')
-      .wait(500)
-      .click()
+    //Seleciona + Cadastro Simplificado
+    cy.wait(500);
+    cy.get('#frmTabela\\:cadastrosProduto').click()
       .wait(500);
     cy.get('.ui-menuitem-text').contains("Cadastro Simplificado").should('be.visible').click();
+
+    //Verifica a troca de url
     cy.url().should('include','produto-simplificado/novo');
+
+    //Inicia-se cadastro do produto
         cy.get('#frmTabelaProd\\:nome').type(nome);
         cy.get('#frmTabelaProd\\:listaCat')
           .find('.ui-icon.ui-icon-triangle-1-s.ui-c').click()
@@ -56,12 +59,44 @@ export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, v
         cy.get('#frmTabelaProd\\:vlvenda').click();
 }
 
+export function registerProduct(nome, codRefeSKU, marca, 
+  fornecedor, tpEstoque, categoria, unidadeMedida, notfiEstoque, vlCusto, 
+  margemVenda, descComple, obs, ncm, cest, origemCST, codExIpi, cfopPadrao, 
+  apxMuni, apxEst, apxFed, codBarTrib, uniTrib, qtdTrib, codProdAnvisa,
+cfopImposto, ufImposto, tpContribuinteImposto, tpCfopImposto){
+    cy.visit('/produto/');
+    cy.wait(500);
+
+    //Seleciona Novo Produto
+    cy.get('.ga-btn.ga-btn-primary.ga-btn-sm-block').contains("Novo Produto").click();
+
+    //Verifica a troca de url
+    cy.url().should('include', '/produto-editar/novo');
+    
+    //Inicia-se cadastro do produto
+        const codigoBarraUnico = uuidv4().replace(/-/g, '').slice(0, 13);
+        cy.get('#frmTabelaProd\\:barra').type(codigoBarraUnico);
+          cy.get('#frmTabelaProd\\:nome').click();
+
+          //Fechar mensagem de aviso código de Barras inválido
+          cy.get('#frmTabelaProd\\:growl_container')
+          .should('be.visible')
+          .within(() => {
+            cy.get('.ui-growl-icon-close')
+              .should('exist')
+              .invoke('show')
+              .click({ force: true });
+          });
+        
+        cy.get('#frmTabelaProd\\:nome').type(nome);
+}
+
 export function saveProduct(){
     cy.contains('#frmTabelaProd\\:salva > .ui-button-text', 'Salvar').should('be.visible').wait(1000);
     cy.get('#frmTabelaProd\\:salva > .ui-button-text').click();
 
     cy.wait(500)
-    cy.get('.ui-messages-info ui-corner-all')
+    cy.get('.ui-messages-info.ui-corner-all')
       .find('ul')
       .find('li').contains('Salvo com sucesso')
 }
