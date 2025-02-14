@@ -59,8 +59,8 @@ export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, v
         cy.get('#frmTabelaProd\\:vlvenda').click();
 }
 
-export function registerProduct(nome, codRefeSKU, marca, 
-  fornecedor, tpEstoque, categoria, unidadeMedida, notfiEstoque, vlCusto, 
+export function registerProduct(nome, marca, 
+  fornecedor, cnpjFornecedor, tpEstoque, categoria, unidadeMedida, notfiEstoque, vlCusto, 
   margemVenda, descComple, obs, ncm, cest, origemCST, codExIpi, cfopPadrao, 
   apxMuni, apxEst, apxFed, codBarTrib, uniTrib, qtdTrib, codProdAnvisa,
 cfopImposto, ufImposto, tpContribuinteImposto, tpCfopImposto){
@@ -82,13 +82,34 @@ cfopImposto, ufImposto, tpContribuinteImposto, tpCfopImposto){
           cy.get('#frmTabelaProd\\:growl_container')
           .should('be.visible')
           .within(() => {
-            cy.get('.ui-growl-icon-close')
-              .should('exist')
-              .invoke('show')
-              .click({ force: true });
+            cy.get('.ui-growl-icon-close').should('exist').invoke('show').click({ force: true });
           });
         
         cy.get('#frmTabelaProd\\:nome').type(nome);
+        const codigoSkuUnico = uuidv4().replace(/-/g, '').slice(0, 5);
+        cy.get('#frmTabelaProd\\:cref').clear().type(codigoSkuUnico);
+        cy.get('#frmTabelaProd\\:marca').type(marca);
+        cy.get('#frmTabelaProd\\:listaFornecedor_input').type(fornecedor).wait(500);
+        cy.get('#frmTabelaProd\\:listaFornecedor_panel')
+          .find('ul').find('li').contains(cnpjFornecedor).click();
+        cy.get('.ga-col-sm-6.ga-col-xl-4.ga-form-group').contains("Tipo de Estoque/Faturamento")
+          .parent('div')
+          .find('.ui-icon.ui-icon-triangle-1-s.ui-c').wait(500).click();
+        cy.get('#frmTabelaProd\\:j_idt116_items')
+          .find('li').contains(tpEstoque).click();
+        cy.get('#frmTabelaProd\\:listaCat')
+          .find('.ui-icon.ui-icon-triangle-1-s.ui-c').click()
+          .wait(500);
+        cy.get('#frmTabelaProd\\:listaCat_items').should('be.visible')        
+          .find('li').contains(categoria)
+          .click();
+        cy.get('#frmTabelaProd\\:unid').clear().type(unidadeMedida);
+        cy.get('#frmTabelaProd\\:estoqueMinimo').clear().type(notfiEstoque);
+        cy.get('#frmTabelaProd\\:vlcusto').clear().type(vlCusto);
+        cy.get('#frmTabelaProd\\:vlcusto').should('have.value', vlCusto);
+        cy.get('#frmTabelaProd\\:margemVenda').clear().wait(500);
+        cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda);
+        cy.get('#frmTabelaProd\\:vlvenda').click();
 }
 
 export function saveProduct(){
