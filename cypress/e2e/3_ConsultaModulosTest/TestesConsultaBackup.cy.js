@@ -14,14 +14,14 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         });
 
         it('Cliente SIEM - CNPJ', () => {
-            cy.get('#cnpj').type('03.008.433/0001-81');
-            cy.get('#consultaBKP').click();
+            cy.get('[data-testid="inputDigiteCNPJ"]').type('03.008.433/0001-81');
+            cy.get('[data-testid="submitConsultaBackupEnvio"]').click();
             cy.url().should('equal','http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=03008433000181');
         });
 
         it('Cliente SIEM - CNPJ - TESTE RESET ENVIO XML (SEM RESETAR)', () => {
-            cy.get('#cnpj').type('03.008.433/0001-81');
-            cy.get('#consultaBKP').click();
+            cy.get('[data-testid="inputDigiteCNPJ"]').type('03.008.433/0001-81');
+            cy.get('[data-testid="submitConsultaBackupEnvio"]').click();
             cy.url().should('equal','http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=03008433000181');
 
             cy.get('#resetaXML').should('be.visible').click();
@@ -29,18 +29,18 @@ Cypress.on('uncaught:exception', (err, runnable) => {
         });
 
         it('Cliente GA - CNPJ', () => {
-            cy.get('#cnpj').type('10.738.886/0001-29');
-            cy.get('#consultaBKP').click();
+            cy.get('[data-testid="inputDigiteCNPJ"]').type('10.738.886/0001-29');
+            cy.get('[data-testid="submitConsultaBackupEnvio"]').click();
             cy.url().should('equal','http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=10738886000129');
         });
 
         it('Cliente GA - CNPJ TESTE RESET ENVIO XML (SEM RESETAR)', () => {
-            cy.get('#cnpj').type('10.738.886/0001-29');
-            cy.get('#consultaBKP').click();
+            cy.get('[data-testid="inputDigiteCNPJ"]').type('10.738.886/0001-29');
+            cy.get('[data-testid="submitConsultaBackupEnvio"]').click();
             cy.url().should('equal','http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=10738886000129');
 
-            cy.get('#resetaXML').should('be.visible').click();
-            cy.get('#cancelReset').should('be.visible').click();
+            cy.get('[data-testid="resetEnvio"]').should('be.visible').click();
+            cy.get('[data-testid="cancelaReset"]').should('be.visible').click();
         });
     });
 
@@ -49,7 +49,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
             cy.visit('http://127.0.0.1:5500/docs/resultado.html?cnpj=03008433000181');
 
             cy.wait(2000);
-            cy.get('#exibeDetalhes').should('be.visible').click();
+            cy.get('[data-testid="exibeDetalhes"]').should('be.visible').click();
             cy.url().should('equal', 'http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=03008433000181');
         });
 
@@ -57,7 +57,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
             cy.visit('http://127.0.0.1:5500/docs/resultado.html?cnpj=10738886000129');
 
             cy.wait(2000);
-            cy.get('#exibeDetalhes').should('be.visible').click();
+            cy.get('[data-testid="exibeDetalhes"]').should('be.visible').click();
             cy.url().should('equal', 'http://127.0.0.1:5500/docs/resultado_BKP.html?cnpj=10738886000129');
         });
     });
