@@ -18,7 +18,10 @@ describe('Teste Cadastro de Produtos', () => {
 
     it('Cadastrar - Produto Completo', () => {
       registerProduct("AUTOMÁTICO - PS5","SONY","FORNECEDOR","09.168.522/0001-71", "Estoque externo e faturamento interno",
-        " / DIVERSOS","UN","100","550,00","156,00");
+        " / DIVERSOS","UN","100","550,00","156,00", 
+        "Descrição complementar automática, teste! #$%¨&*()_+_-1021290.;,;.~´~´//~"
+        ,"Teste OBS AUTOMÁTICA, teste! #$%¨&*()_+_-1021290.;,;.~´~´//~ ", "95045000", "2107900", "4", "999", "102", "3,75", 
+        "2,66","7,00");
      });
 
 });

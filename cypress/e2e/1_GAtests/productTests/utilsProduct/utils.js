@@ -35,7 +35,7 @@ export function registerSimplifiedProduct(nome, categoria, unidadeMedida, ncm, v
     //Seleciona + Cadastro Simplificado
     cy.wait(500);
     cy.get('#frmTabela\\:cadastrosProduto').click()
-      .wait(500);
+    cy.get('.ui-menu.ui-menu-overlay', { timeout: 6000 }).should('be.visible'); // Aguarda o menu aparecer
     cy.get('.ui-menuitem-text').contains("Cadastro Simplificado").should('be.visible').click();
 
     //Verifica a troca de url
@@ -110,6 +110,32 @@ cfopImposto, ufImposto, tpContribuinteImposto, tpCfopImposto){
         cy.get('#frmTabelaProd\\:margemVenda').clear().wait(500);
         cy.get('#frmTabelaProd\\:margemVenda').type(margemVenda);
         cy.get('#frmTabelaProd\\:vlvenda').click();
+        cy.get('.ga-col-sm-6.ga-form-group').contains("Descrição Complementar")
+          .parent()
+          .find('[role="textbox"]').type(descComple)
+        cy.get('.ga-col-sm-6.ga-form-group').contains("Observação")
+          .parent()
+          .find('[role="textbox"]').type(obs)
+          .wait(500)
+        cy.get('#frmTabelaProd\\:ncm').clear().type(ncm);
+        cy.get('#frmTabelaProd\\:CEST').type(cest)   
+                  //Fechar mensagem de "Erro Token IBPT"
+                  cy.get('#frmTabelaProd\\:growl_container')
+                  .should('be.visible')
+                  .within(() => {
+                    cy.get('.ui-growl-icon-close').should('exist').invoke('show').click({ force: true });
+                  });
+
+        cy.get('.ga-col-sm-6.ga-col-xl-3.ga-form-group').contains("Origem")
+          .parent()
+          //Seleciona a opção com value, fiz assim pois no HTML do GA tem "options"
+          .find('[name="frmTabelaProd:j_idt186"]')
+          .select(origemCST);
+        cy.get('#frmTabelaProd\\:EXTIPI').clear().type(codExIpi);
+        cy.get('#frmTabelaProd\\:cfopPadrao').type(cfopPadrao);
+        cy.get('#frmTabelaProd\\:municipal').clear().type(apxMuni);
+        cy.get('#frmTabelaProd\\:estadual').clear().type(apxEst);
+        cy.get('#frmTabelaProd\\:federal').clear().type(apxFed);
 }
 
 export function saveProduct(){
